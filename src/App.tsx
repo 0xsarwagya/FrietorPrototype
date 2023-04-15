@@ -18,7 +18,7 @@ import {
 } from "firebase/auth";
 
 const clientId =
-  "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
+  "BAtZrSOiHvDDluhYMd_ITNwfC_VcbuPHBAAF0JyHdBnghzJlttg-o9bN5xWIqVI6sTljqiwxGeO2p56KQG55Fpw"; // get from https://dashboard.web3auth.io
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,7 +29,7 @@ const firebaseConfig = {
   storageBucket: "frietor-wallet.appspot.com",
   messagingSenderId: "621102240407",
   appId: "1:621102240407:web:e7a933a945e2f48a25cfd2",
-  measurementId: "G-TZ2BRV0VSY"
+  measurementId: "G-TZ2BRV0VSY",
 };
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x5",
           },
-          web3AuthNetwork: "cyan",
+          web3AuthNetwork: "aqua",
           useCoreKitKey: false,
         });
 
@@ -56,7 +56,7 @@ function App() {
             uxMode: "redirect",
             loginConfig: {
               jwt: {
-                verifier: "web3auth-firebase-examples",
+                verifier: "esportzvio",
                 typeOfLogin: "jwt",
                 clientId,
               },
