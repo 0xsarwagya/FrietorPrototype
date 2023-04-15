@@ -76,6 +76,7 @@ function App() {
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
+        toast.success("Initialising Complete");
       } catch (error) {
         toast.dismiss("loading");
         toast.error("Something Bad Happened");
