@@ -70,11 +70,12 @@ function App() {
         web3auth.configureAdapter(openloginAdapter);
         setWeb3auth(web3auth);
 
-        await web3auth.init();
+        await web3auth.init().then(() => {
+          toast.dismiss("loading");
+        });
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
-        toast.dismiss("loading");
       } catch (error) {
         toast.dismiss("loading");
         toast.error("Something Bad Happened");
