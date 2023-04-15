@@ -22,12 +22,14 @@ const clientId =
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB0nd9YsPLu-tpdCrsXn8wgsWVAiYEpQ_E",
-  authDomain: "web3auth-oauth-logins.firebaseapp.com",
-  projectId: "web3auth-oauth-logins",
-  storageBucket: "web3auth-oauth-logins.appspot.com",
-  messagingSenderId: "461819774167",
-  appId: "1:461819774167:web:e74addfb6cc88f3b5b9c92",
+  apiKey: "AIzaSyBjCkRxvWFPm0O1x_X5jyTwdpERmKc7zpM",
+  authDomain: "frietor-wallet.firebaseapp.com",
+  databaseURL: "https://frietor-wallet-default-rtdb.firebaseio.com",
+  projectId: "frietor-wallet",
+  storageBucket: "frietor-wallet.appspot.com",
+  messagingSenderId: "621102240407",
+  appId: "1:621102240407:web:e7a933a945e2f48a25cfd2",
+  measurementId: "G-TZ2BRV0VSY"
 };
 
 function App() {
