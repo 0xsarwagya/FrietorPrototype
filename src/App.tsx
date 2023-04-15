@@ -76,6 +76,7 @@ function App() {
         }
         toast.dismiss("loading");
       } catch (error) {
+        toast.dismiss("loading");
         toast.error("Something Bad Happened");
         console.error(error);
       }
@@ -90,9 +91,11 @@ function App() {
       const auth = getAuth(app);
       const googleProvider = new GoogleAuthProvider();
       const res = await signInWithPopup(auth, googleProvider);
+      toast.success("Logged In");
       console.log(res);
       return res;
     } catch (err) {
+      toast.error("Something Bad Happened");
       console.error(err);
       throw err;
     }
