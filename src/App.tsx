@@ -16,6 +16,7 @@ import {
   signInWithPopup,
   UserCredential,
 } from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 const clientId =
   "BAtZrSOiHvDDluhYMd_ITNwfC_VcbuPHBAAF0JyHdBnghzJlttg-o9bN5xWIqVI6sTljqiwxGeO2p56KQG55Fpw"; // get from https://dashboard.web3auth.io
@@ -40,6 +41,9 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
+      toast.loading("Initialising...", {
+        id: "loading",
+      });
       try {
         const web3auth = new Web3AuthNoModal({
           clientId,
@@ -70,7 +74,9 @@ function App() {
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
+        toast.dismiss("loading");
       } catch (error) {
+        toast.error("Something Bad Happened");
         console.error(error);
       }
     };
@@ -109,7 +115,7 @@ function App() {
         extraLoginOptions: {
           id_token: idToken,
           verifierIdField: "sub",
-          domain: "http://localhost:3000",
+          domain: `${window.location.protocol}//${window.location.host}`,
         },
       }
     );
