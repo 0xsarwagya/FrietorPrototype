@@ -15,18 +15,27 @@ const App = () => {
     setLoading,
   } = useWeb3Auth();
 
-  const linkWithGoogle = async () => {
+  /**
+   * Attempts to sign in with Google using FirebaseAuthentication, and then connects to a web3 wallet
+   * using OpenLogin's connectTo method.
+   * @returns {Promise<void>}
+   */
+  const linkWithGoogle = async (): Promise<void> => {
     setLoading(true);
     try {
+      // Sign in with Google using FirebaseAuthentication
       await FirebaseAuthentication.signInWithGoogle();
+      // Retrieve an ID token from FirebaseAuthentication
       const { token } = await FirebaseAuthentication.getIdToken({
         forceRefresh: true,
       });
 
+      // If web3Auth is not available, return without doing anything else.
       if (!web3Auth) {
         return;
       }
 
+      // Connect to a web3 wallet using the WALLET_ADAPTERS.OPENLOGIN adapter
       const web3authProvider: SafeEventEmitterProvider | null =
         await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
           loginProvider: "jwt",
@@ -37,131 +46,138 @@ const App = () => {
           },
         });
 
+      // Set the logged-in state to true and the loading state to false if web3authProvider is returned.
       if (web3authProvider) {
         setLoggedIn(true);
         setLoading(false);
         return;
       } else {
+        // Set the logged-in state to false and the loading state to false if web3authProvider is not returned.
         setLoggedIn(false);
         setLoading(false);
         return;
       }
     } catch (error) {
+      // If there's an error during the process, set the loading state to false and show an error message using toast.error.
       setLoading(false);
       toast.error("Something Bad Happened");
     }
   };
 
-  const linkWithFb = async () => {
+  /**
+   * Attempts to sign in with Facebook using FirebaseAuthentication, and then connects to a web3 wallet
+   * using OpenLogin's connectTo method.
+   * @returns {Promise<void>}
+   */
+  const linkWithFb = async (): Promise<void> => {
     setLoading(true);
-    await FirebaseAuthentication.signInWithFacebook();
-    const { token } = await FirebaseAuthentication.getIdToken({
-      forceRefresh: true,
-    });
-
-    if (!web3Auth) {
-      return;
-    }
-
-    const web3authProvider: SafeEventEmitterProvider | null =
-      await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: "jwt",
-        extraLoginOptions: {
-          id_token: token,
-          verifierIdField: "sub",
-          domain: `${window.location.protocol}//${window.location.host}`,
-        },
+    try {
+      // Sign in with Facebook using FirebaseAuthentication
+      await FirebaseAuthentication.signInWithFacebook();
+      // Retrieve an ID token from FirebaseAuthentication
+      const { token } = await FirebaseAuthentication.getIdToken({
+        forceRefresh: true,
       });
 
-    if (web3authProvider) {
-      setLoggedIn(true);
+      // If web3Auth is not available, return without doing anything else.
+      if (!web3Auth) {
+        return;
+      }
+
+      // Connect to a web3 wallet using the WALLET_ADAPTERS.OPENLOGIN adapter
+      const web3authProvider: SafeEventEmitterProvider | null =
+        await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+          loginProvider: "jwt",
+          extraLoginOptions: {
+            id_token: token,
+            verifierIdField: "sub",
+            domain: `${window.location.protocol}//${window.location.host}`,
+          },
+        });
+
+      // Set the logged-in state to true and the loading state to false if web3authProvider is returned.
+      if (web3authProvider) {
+        setLoggedIn(true);
+        setLoading(false);
+        return;
+      } else {
+        // Set the logged-in state to false and the loading state to false if web3authProvider is not returned.
+        setLoggedIn(false);
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      // If there's an error during the process, set the loading state to false and show an error message using toast.error.
       setLoading(false);
-      return;
-    } else {
-      setLoggedIn(false);
-      setLoading(false);
-      return;
+      toast.error("Something Bad Happened");
     }
   };
 
-  const linkWithTwitter = async () => {
+  /**
+   * Attempts to sign in with Twitter using FirebaseAuthentication, and then connects to a web3 wallet
+   * using OpenLogin's connectTo method.
+   * @returns {Promise<void>}
+   */
+  const linkWithTwitter = async (): Promise<void> => {
     setLoading(true);
-    await FirebaseAuthentication.signInWithTwitter();
-    const { token } = await FirebaseAuthentication.getIdToken({
-      forceRefresh: true,
-    });
-
-    if (!web3Auth) {
-      return;
-    }
-
-    const web3authProvider: SafeEventEmitterProvider | null =
-      await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: "jwt",
-        extraLoginOptions: {
-          id_token: token,
-          verifierIdField: "sub",
-          domain: `${window.location.protocol}//${window.location.host}`,
-        },
+    try {
+      // Sign in with Twitter using FirebaseAuthentication
+      await FirebaseAuthentication.signInWithTwitter();
+      // Retrieve an ID token from FirebaseAuthentication
+      const { token } = await FirebaseAuthentication.getIdToken({
+        forceRefresh: true,
       });
 
-    if (web3authProvider) {
-      setLoggedIn(true);
+      // If web3Auth is not available, return without doing anything else.
+      if (!web3Auth) {
+        return;
+      }
+
+      // Connect to a web3 wallet using the WALLET_ADAPTERS.OPENLOGIN adapter
+      const web3authProvider: SafeEventEmitterProvider | null =
+        await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+          loginProvider: "jwt",
+          extraLoginOptions: {
+            id_token: token,
+            verifierIdField: "sub",
+            domain: `${window.location.protocol}//${window.location.host}`,
+          },
+        });
+
+      // Set the logged-in state to true and the loading state to false if web3authProvider is returned.
+      if (web3authProvider) {
+        setLoggedIn(true);
+        setLoading(false);
+        return;
+      } else {
+        // Set the logged-in state to false and the loading state to false if web3authProvider is not returned.
+        setLoggedIn(false);
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      // If there's an error during the process, set the loading state to false and show an error message using toast.error.
       setLoading(false);
-      return;
-    } else {
-      setLoggedIn(false);
-      setLoading(false);
-      return;
+      toast.error("Something Bad Happened");
     }
-  };
-
-  const handleTx = () => {
-    const to = prompt("Enter Recipent Address");
-    const value = prompt("Enter Sending Amount");
-
-    if (!to || !value) {
-      return;
-    }
-
-    wallet
-      ?.sendTransaction({
-        to,
-        value,
-        gasPrice: "0x9184e72a000",
-      })
-      .then(() => {
-        toast.success(`Transaction Complete`);
-      })
-      .catch((e) => {
-        toast.error(`Something bad happened`);
-      });
   };
 
   const handleLogout = () => {
+    toast.loading("Signing You Out!", {
+      id: "loading",
+    });
     web3Auth
       ?.logout()
-      .then(() => {
-        FirebaseAuthentication.signOut();
+      .then(async () => {
+        await FirebaseAuthentication.signOut();
         setLoggedIn(false);
+        toast.dismiss('loading')
+        toast.success("Logged Out Successfully");
       })
       .catch(() => {
-        alert("Something Bad Happened");
-      });
-  };
-
-  const handleSigning = () => {
-    const message = prompt("What Message Do Want To Sign?");
-    if (!message) {
-      return;
-    }
-    wallet
-      ?.signMessage(message)
-      .then((signed) => {
-        toast.success(`Successfully Signed Message ${signed}`);
-      })
-      .catch((e) => {
-        toast.error(`Something bad happened`);
+        toast.dismiss('loading')
+        toast.error("Logging out failed!");
+        setLoggedIn(true);
       });
   };
 
@@ -174,15 +190,6 @@ const App = () => {
           <center>
             <p> {wallet?.address} </p>
             <b className="mb-5"> {balance ? balance : "Error"} </b>
-            <br />
-            <button className="btn btn-primary mb-2" onClick={handleSigning}>
-              Sign Message
-            </button>
-            <br />
-            <button className="btn btn-primary mb-2" onClick={handleTx}>
-              Send Tx
-            </button>
-            <br />
             <button className="btn btn-primary mb-2" onClick={handleLogout}>
               Logout
             </button>
