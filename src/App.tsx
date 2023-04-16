@@ -84,6 +84,38 @@ const App = () => {
     }
   };
 
+  const linkWithTwitter = async () => {
+    setLoading(true);
+    await FirebaseAuthentication.signInWithTwitter();
+    const { token } = await FirebaseAuthentication.getIdToken({
+      forceRefresh: true,
+    });
+
+    if (!web3Auth) {
+      return;
+    }
+
+    const web3authProvider: SafeEventEmitterProvider | null =
+      await web3Auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+        loginProvider: "jwt",
+        extraLoginOptions: {
+          id_token: token,
+          verifierIdField: "sub",
+          domain: `${window.location.protocol}//${window.location.host}`,
+        },
+      });
+
+    if (web3authProvider) {
+      setLoggedIn(true);
+      setLoading(false);
+      return;
+    } else {
+      setLoggedIn(false);
+      setLoading(false);
+      return;
+    }
+  };
+
   const handleTx = () => {
     const to = prompt("Enter Recipent Address");
     const value = prompt("Enter Sending Amount");
@@ -163,9 +195,12 @@ const App = () => {
               Login With Google
             </button>
             <br />
-            <br />
             <button className="btn btn-primary" onClick={linkWithFb}>
               Login With Facebook
+            </button>
+            <br />
+            <button className="btn btn-primary" onClick={linkWithTwitter}>
+              Login With Twitter
             </button>
           </center>
         </div>
