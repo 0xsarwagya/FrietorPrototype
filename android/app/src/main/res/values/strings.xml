@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Frietor Wallet Social</string>
+    <string name="title_activity_main">Frietor Wallet Social</string>
+    <string name="package_name">com.prototype.frietor</string>
+    <string name="custom_url_scheme">com.prototype.frietor</string>
+</resources>
