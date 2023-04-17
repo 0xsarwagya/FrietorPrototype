@@ -84,7 +84,7 @@ const useWeb3Auth = () => {
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: {
-            uxMode: "sessionless_redirect",
+            uxMode: 'redirect',
             loginConfig: {
               jwt: {
                 verifier: "esportzvio",
