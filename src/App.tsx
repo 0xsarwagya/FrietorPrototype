@@ -7,6 +7,7 @@ import { networks } from "./utils/chain";
 import React, { useState } from "react";
 import { NetworkName } from "./utils/types";
 import { ethers } from "ethers";
+import Header from "./components/Header";
 
 const App = () => {
   const [address, setAddress] = useState<string>("");
@@ -298,6 +299,7 @@ const App = () => {
       ) : loggedIn ? (
         // LoggedIn View
         <>
+          <Header web3auth={web3Auth} handleLogout={handleLogout} />
           <body>
             <input type="checkbox" className="modal-toggle " id="sendTx" />
             <div className="modal">
@@ -463,7 +465,10 @@ const App = () => {
                       <tr>
                         <td> {txHist.indexOf(tx) + 1} </td>
                         <td>
-                          <a target="_blank" href={`${provider.blockScanner}tx/${tx.hash}`}>
+                          <a
+                            target="_blank"
+                            href={`${provider.blockScanner}tx/${tx.hash}`}
+                          >
                             {tx.hash.split("").splice(0, 5).join("")}...
                           </a>
                         </td>
@@ -476,9 +481,7 @@ const App = () => {
               </table>
             </div>
             <a
-              href={
-                `${provider.blockScanner}address/${wallet?.address}`
-              }
+              href={`${provider.blockScanner}address/${wallet?.address}`}
               target="_blank"
               className="btn btn-block btn-primary mt-5"
             >

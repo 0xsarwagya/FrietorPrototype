@@ -12,7 +12,6 @@ root.render(
   <React.StrictMode>
     <div data-theme="halloween">
       <Toaster />
-      <Header />
       <div className="p-5">
         <App />
       </div>
