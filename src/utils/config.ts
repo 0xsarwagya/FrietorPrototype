@@ -12,7 +12,7 @@ import { Capacitor } from "@capacitor/core";
  * @type {string}
  */
 export const clientID: string =
-  "BAtZrSOiHvDDluhYMd_ITNwfC_VcbuPHBAAF0JyHdBnghzJlttg-o9bN5xWIqVI6sTljqiwxGeO2p56KQG55Fpw";
+  "BKhcXAOCpBqCGBkLiyLNTGXeGOeBL2i1Wqr5ImBsM54mWhrNrrT4FeFv6ghT-arTTi3HCc6Jk8A-W3T5bSFHN-c";
 
 /**
  * The Firebase configuration object.
