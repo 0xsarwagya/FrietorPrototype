@@ -69,17 +69,6 @@ const useWeb3Auth = () => {
    * Initialize the Web3AuthNoModal instance with OpenloginAdapter.
    */
   useEffect(() => {
-    const id = localStorage.getItem("network") as NetworkName;
-    if (!id) {
-      const providerData = networks[0];
-      setProvider(providerData);
-      setHistoryProv(providerData.historyProvider);
-      return;
-    }
-    const providerData = networks.filter((net) => net.id === id)[0];
-    setProvider(providerData);
-    setHistoryProv(providerData.historyProvider);
-
     const init = async () => {
       setLoading(true);
       try {
@@ -89,7 +78,7 @@ const useWeb3Auth = () => {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x89",
           },
-          web3AuthNetwork: 'aqua',
+          web3AuthNetwork: "aqua",
           useCoreKitKey: false,
         });
 
@@ -105,7 +94,7 @@ const useWeb3Auth = () => {
             },
           },
         });
-
+        console.log(web3auth);
         web3auth.configureAdapter(openloginAdapter);
         await web3auth.init();
         setWeb3Auth(web3auth);
@@ -117,6 +106,17 @@ const useWeb3Auth = () => {
       }
     };
 
+    const id = localStorage.getItem("network") as NetworkName;
+    if (!id) {
+      const providerData = networks[0];
+      setProvider(providerData);
+      setHistoryProv(providerData.historyProvider);
+      init();
+      return;
+    }
+    const providerData = networks.filter((net) => net.id === id)[0];
+    setProvider(providerData);
+    setHistoryProv(providerData.historyProvider);
     init();
   }, []);
 
