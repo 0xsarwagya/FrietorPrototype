@@ -11,7 +11,7 @@ const Loading = () => {
           <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-green-500"></div>
         </div>
         <div className="text-gray-500 text-xs font-medium mt-2 text-center">
-          Connecting to client...
+          Connecting to the provider...
         </div>
       </div>
     </div>

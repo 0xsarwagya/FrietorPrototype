@@ -4,6 +4,9 @@ import { clientID } from "../utils/config";
 import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { Wallet, ethers } from "ethers";
+import { NetworkConfig, NetworkName, historyProvider } from "../utils/types";
+import { networks } from "../utils/chain";
+import { toast } from "react-hot-toast";
 
 /**
  * A custom hook for handling Web3 authentication.
@@ -18,6 +21,22 @@ const useWeb3Auth = () => {
   const [balance, setBalance] = useState<string | null>(null);
   const [frietorProvider, setFrietorProvider] =
     useState<ethers.providers.Web3Provider | null>(null);
+  const [provider, setProvider] = useState<NetworkConfig>(networks[0]);
+  const [gasPrice, setGasPrice] = useState<ethers.BigNumber>(
+    ethers.BigNumber.from("6000000")
+  );
+  const [refresh, setReresh] = useState<boolean>(false);
+  const [historyProv, setHistoryProv] = useState<historyProvider>(
+    provider.historyProvider
+  );
+  const [txHist, setTxHist] = useState<
+    Array<ethers.providers.TransactionResponse>
+  >([]);
+
+  useEffect(() => {
+    const bigint = ethers.BigNumber.from("6000000");
+    setGasPrice(bigint);
+  }, []);
 
   /**
    * Check if the user is already authenticated.
@@ -50,6 +69,11 @@ const useWeb3Auth = () => {
    * Initialize the Web3AuthNoModal instance with OpenloginAdapter.
    */
   useEffect(() => {
+    const id = localStorage.getItem("network") as NetworkName;
+    const providerData = networks.filter((net) => net.id === id)[0];
+    setProvider(providerData);
+    setHistoryProv(providerData.historyProvider);
+
     const init = async () => {
       setLoading(true);
       try {
@@ -118,10 +142,7 @@ const useWeb3Auth = () => {
   useEffect(() => {
     if (privatekey) {
       if (web3Auth) {
-        const frtprovider = new ethers.providers.Web3Provider(
-          web3Auth.provider as any
-        );
-        const walletFRT = new ethers.Wallet(privatekey, frtprovider);
+        const walletFRT = new ethers.Wallet(privatekey, provider.provider);
         setWallet(walletFRT);
         return;
       }
@@ -135,17 +156,40 @@ const useWeb3Auth = () => {
    */
   useEffect(() => {
     if (!wallet) return;
-    wallet
-      .getBalance()
+    setLoading(true);
+    provider.provider
+      .getBalance(wallet.address)
       .then((bal) => {
+        const getHist = async () => {
+          try {
+            const historyProvider = new ethers.providers.EtherscanProvider(
+              historyProv
+            );
+            if (!wallet) return;
+            const txHistory = await historyProvider.getHistory(wallet.address);
+
+            setTxHist(txHistory.splice(0, 3));
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            toast.error("Error While Fetching History");
+          }
+        };
+
+        getHist();
         let balanceInETH = ethers.utils.formatEther(bal);
-        setBalance(balanceInETH);
+        let formattedBal =
+          balanceInETH.length > 4
+            ? balanceInETH.split("").splice(0, 6).join("") + "..."
+            : balanceInETH;
+        setBalance(formattedBal);
       })
       .catch((e) => {
+        setLoading(false);
         setBalance(null);
         console.log(e);
       });
-  }, [wallet]);
+  }, [wallet, provider, refresh]);
 
   useEffect(() => {
     if (web3Auth?.provider) {
@@ -159,6 +203,26 @@ const useWeb3Auth = () => {
     return;
   }, [web3Auth]);
 
+  useEffect(() => {
+    if (!wallet) return;
+    wallet.connect(provider.provider);
+    localStorage.setItem("network", provider.id);
+  }, [provider, refresh]);
+
+  useEffect(() => {
+    const getGas = async () => {
+      try {
+        const gasEst = await provider.provider.getGasPrice();
+        setGasPrice(gasEst);
+      } catch (error) {
+        const bigint = ethers.BigNumber.from("6000000");
+        setGasPrice(bigint);
+      }
+    };
+
+    getGas();
+  }, [provider]);
+
   return {
     web3Auth,
     loggedIn,
@@ -169,6 +233,11 @@ const useWeb3Auth = () => {
     wallet,
     balance,
     frietorProvider,
+    provider,
+    setProvider,
+    gasPrice,
+    setReresh,
+    txHist,
   };
 };
 

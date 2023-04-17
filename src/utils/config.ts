@@ -54,7 +54,7 @@ const getFirebaseAuth = () => {
       persistence: indexedDBLocalPersistence,
     });
   } else {
-    return getAuth();
+    return getAuth(app);
   }
 };
 
