@@ -70,6 +70,12 @@ const useWeb3Auth = () => {
    */
   useEffect(() => {
     const id = localStorage.getItem("network") as NetworkName;
+    if (!id) {
+      const providerData = networks[0];
+      setProvider(providerData);
+      setHistoryProv(providerData.historyProvider);
+      return;
+    }
     const providerData = networks.filter((net) => net.id === id)[0];
     setProvider(providerData);
     setHistoryProv(providerData.historyProvider);
