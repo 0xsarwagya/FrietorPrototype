@@ -87,15 +87,15 @@ const useWeb3Auth = () => {
           clientId: clientID,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x13881",
+            chainId: "0x89",
           },
-          web3AuthNetwork: "testnet",
+          web3AuthNetwork: 'aqua',
           useCoreKitKey: false,
         });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: {
-            uxMode: "redirect",
+            uxMode: "sessionless_redirect",
             loginConfig: {
               jwt: {
                 verifier: "esportzvio",
